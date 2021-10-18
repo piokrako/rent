@@ -1,3 +1,4 @@
+import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
@@ -8,13 +9,15 @@ import { NgForm } from '@angular/forms';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
   }
 
   onRegister(form: NgForm) {
-    console.log(form.value.email)
+    const email = form.value.email;
+    const pass = form.value.password;
+    this.userService.createUser(email, pass).subscribe( () => console.log('test'));
   }
 
 }

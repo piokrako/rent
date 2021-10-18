@@ -1,0 +1,38 @@
+<div class="container">
+  <mat-card class="mt-3">
+    <mat-card-title>Create a Car</mat-card-title>
+    <mat-card-subtitle>Add car details</mat-card-subtitle>
+    <mat-card-content>
+      <form (submit)="onCreate(createForm)" #createForm="ngForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Brand name</mat-label>
+          <input matInput placeholder="Please enter brand name " name="brand" #brandInput="ngModel" ngModel required>
+          <mat-error *ngIf="brandInput.invalid">Enter brand name</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Model</mat-label>
+          <input matInput placeholder="Please enter model" name="model" #modelInput="ngModel" ngModel required>
+          <mat-error *ngIf="modelInput.invalid">Enter model</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Power</mat-label>
+          <input matInput placeholder="Please enter power" name="power" #powerInput="ngModel" ngModel required>
+          <mat-error *ngIf="powerInput.invalid">Enter power</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Number of seats</mat-label>
+          <input matInput placeholder="Enter number of seats" name="seats" #seatsInput="ngModel" ngModel required>
+          <mat-error *ngIf="seatsInput.invalid">Enter number of seats</mat-error>
+        </mat-form-field>
+
+        <button type="button" mat-raised-button (click)="fileInput.click()">Choose image</button>
+        <input hidden (change)="onFileSelected()" #fileInput type="file" id="file">
+      </form>
+    </mat-card-content>
+    <mat-divider inset></mat-divider>
+    <mat-card-actions >
+      <button mat-raised-button color="primary" class="ms-auto" type="submit">SHARE</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

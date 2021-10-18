@@ -7,3 +7,9 @@
   height: 100%;
 }
 
+.mat-list-item {
+ &.active {
+  background: rgba(103,58,183,.15);
+  color: #673ab7;
+ }
+}
