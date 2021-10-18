@@ -1,0 +1,37 @@
+<mat-toolbar color="primary" class="">
+  <button mat-icon-button class="menu-icon" aria-label="Menu icon-button with menu icon" (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Rent a Car</span>
+  <span class="spacer"></span>
+  <button mat-button [routerLink]="['/']">Login</button>
+  <button mat-button [routerLink]="['/register']">Register</button>
+</mat-toolbar>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" #sidenav>
+    <mat-list role="list">
+      <mat-list-item role="listitem">
+        <mat-icon mat-list-icon>event</mat-icon>
+        Manage Reservations
+      </mat-list-item>
+      <mat-list-item role="listitem">
+        <mat-icon mat-list-icon>drive_eta</mat-icon>
+        Add Car
+      </mat-list-item>
+      <mat-list-item role="listitem">
+        <mat-icon mat-list-icon>person_add</mat-icon>
+        My Users
+      </mat-list-item>
+      <mat-list-item role="listitem">
+        <mat-icon mat-list-icon>home</mat-icon>
+        Main Page
+      </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="w-100">
+
+<router-outlet></router-outlet>
+
+  </mat-sidenav-content >
+
+</mat-sidenav-container>
