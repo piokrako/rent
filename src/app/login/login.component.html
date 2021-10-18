@@ -1,0 +1,17 @@
+<div class="vh-100 overflow-hidden">
+    <mat-card class="mt-5 m-auto">
+        <form (submit)="onLogin(loginForm)" #loginForm="ngForm">
+            <mat-form-field appearance="fill">
+                <mat-label>E-mail adress</mat-label>
+                <input matInput placeholder="mail@mail.com" name="email" #emailInput="ngModel" ngModel required>
+                <mat-error *ngIf="emailInput.invalid">Please input a valid e-mail adress</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput placeholder="input your password" name="password" ngModel>
+            </mat-form-field>
+
+            <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+    </mat-card>
+</div>
