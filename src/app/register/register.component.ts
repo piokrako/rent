@@ -17,7 +17,9 @@ export class RegisterComponent implements OnInit {
   onRegister(form: NgForm) {
     const email = form.value.email;
     const pass = form.value.password;
-    this.userService.createUser(email, pass).subscribe( () => console.log('test'));
+    this.userService.createUser(email, pass).subscribe( res => {
+      console.log(res);
+    });
   }
 
 }
