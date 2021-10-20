@@ -1,3 +1,4 @@
+import { AdminService } from './../admin.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -12,13 +13,14 @@ export class CreateCarComponent implements OnInit {
 
   fileName = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private adminService: AdminService) { }
 
   ngOnInit(): void {
   }
 
   onCreate(form: NgForm) {
-
+    this.adminService.createCar(form.value.brand, form.value.model, form.value.power, form.value.seats, this.fileName);
+    form.resetForm();
   }
 
   onFileSelected(event: any) {
@@ -30,5 +32,9 @@ export class CreateCarComponent implements OnInit {
       this.http.post('http://localhost:3000/api/admin/save-image', formData).subscribe(res => console.log(res));
     }
   }
+
+  // ngOnDestroy() {
+  //   this.unsubscribe.unsubscribe();
+  // }
 
 }

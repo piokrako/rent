@@ -1,3 +1,4 @@
+import { AdminService } from './admin.service';
 import { UserService } from './user.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -62,7 +63,7 @@ import { HttpClientModule } from '@angular/common/http';
       { path: 'users', component: AdminUsersComponent },
     ]),
   ],
-  providers: [UserService, LoginComponent],
+  providers: [UserService, LoginComponent, AdminService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
