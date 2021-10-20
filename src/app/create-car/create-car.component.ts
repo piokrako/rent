@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'app-create-car',
@@ -8,7 +10,9 @@ import { NgForm } from '@angular/forms';
 })
 export class CreateCarComponent implements OnInit {
 
-  constructor() { }
+  fileName = '';
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
   }
@@ -17,8 +21,14 @@ export class CreateCarComponent implements OnInit {
 
   }
 
-  onFileSelected() {
-
-
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.fileName = file.name
+      const formData = new FormData();
+      formData.append("file", file, this.fileName);
+      this.http.post('http://localhost:3000/api/admin/save-image', formData).subscribe(res => console.log(res));
+    }
   }
+
 }
