@@ -3,7 +3,7 @@
     <mat-card-title>Create a Car</mat-card-title>
     <mat-card-subtitle>Add car details</mat-card-subtitle>
     <mat-card-content>
-      <form (submit)="onCreate(createForm)" #createForm="ngForm">
+      <form (submit)="onCreate(createForm)" id="ngForm" #createForm="ngForm">
         <mat-form-field appearance="fill">
           <mat-label>Brand name</mat-label>
           <input matInput placeholder="Please enter brand name " name="brand" #brandInput="ngModel" ngModel required>
@@ -26,26 +26,22 @@
           <mat-error *ngIf="seatsInput.invalid">Enter number of seats</mat-error>
         </mat-form-field>
 
-        <!-- <button type="button" mat-raised-button (click)="fileInput.click()">Choose image</button> -->
-        <!-- <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file"> -->
-
-
         <input hidden type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
         <div class="file-upload">
 
-          <button mat-mini-fab color="primary" class="upload-btn me-3" (click)="fileUpload.click()">
+          <button mat-mini-fab color="primary" type="button" class="upload-btn me-3" (click)="fileUpload.click()">
             <mat-icon>attach_file</mat-icon>
           </button>
 
           {{fileName || "No file uploaded yet."}}
 
-
         </div>
       </form>
     </mat-card-content>
     <mat-divider inset></mat-divider>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" class="ms-auto" type="submit">SHARE</button>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" type="submit" form="ngForm" (click)="createForm.ngSubmit.emit()"
+      [disabled]="!createForm.form.valid">SHARE</button>
     </mat-card-actions>
   </mat-card>
 </div>

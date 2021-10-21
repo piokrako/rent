@@ -16,7 +16,11 @@ export class AdminService {
       seats: seats,
       imgURL: imgURL
     }
-    return this.http.post('http://localhost:300/api/admin/create-car', carData);
+    return this.http.post('http://localhost:3000/api/admin/create-car', carData);
+  }
+
+  getUsers() {
+    return this.http.get('http://localhost:3000/api/admin/users');
   }
 
 

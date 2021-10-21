@@ -14,12 +14,13 @@ export class CreateCarComponent implements OnInit {
   fileName = '';
 
   constructor(private http: HttpClient, private adminService: AdminService) { }
-
+;
   ngOnInit(): void {
   }
 
   onCreate(form: NgForm) {
-    this.adminService.createCar(form.value.brand, form.value.model, form.value.power, form.value.seats, this.fileName);
+    this.adminService.createCar(form.value.brand, form.value.model, form.value.power, form.value.seats, this.fileName).subscribe(res => {console.log(res)});
+    this.fileName = '';
     form.resetForm();
   }
 

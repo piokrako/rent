@@ -5,11 +5,6 @@ const User = require("./models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-
-
-// router.get('/', function (req, res, next) {
-//   res.send("Apple test");
-// })
 router.post("/signup", (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
     const user = new User({
