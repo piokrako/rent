@@ -3,6 +3,7 @@ const multer = require("multer");
 const router = express.Router();
 const Car = require("./models/car");
 const User = require("./models/user");
+const Reservation = require("./models/reservation");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -88,9 +89,9 @@ router.post("/admin-user", (req, res) => {
 });
 
 // lte = less than equal, gte = greater than equal, ne = not equal
-router
-  .post("/cars", (req, res) => {
-    Reservation.find().or([
+router.post("/cars", (req, res) => {
+  Reservation.find()
+    .or([
       {
         $and: [
           { from: { $lte: req.body.from } },
@@ -109,25 +110,24 @@ router
           { until: { $lt: req.body.until } },
         ],
       },
-    ]).then((cars) => {
+    ])
+    .then((cars) => {
       if (cars[0] === undefined) {
         Car.find()
           .then((car) => {
             res.status(200).json(car);
           })
-          .catch((error) => {
-            console.log(error);
-          });
+          .catch((error) => console.log(error));
       } else {
-        Car.find({ _id: { $ne: car[0].car_id } })
+        Car.find({ _id: { $ne: cars[0].car_id } })
           .then((car) => {
-            res.status(201).json(car3);
+            res.status(201).json(car);
           })
           .catch((error) => {
             console.log(error);
           });
       }
     });
-  });
+});
 
 module.exports = router;

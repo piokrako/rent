@@ -1,1 +1,10 @@
-<p>datepicker works!</p>
+<h1 class="text-center">Please give the dates</h1>
+
+<form (submit)="onSearch(dateForm)" #dateForm="ngForm">
+  <input type="text" placeholder="Pick dates..." class="form-control" bsDaterangepicker ngModel name="dateInput"
+    [bsConfig]="{ rangeInputFormat : 'YYYY-MM-DD', containerClass: 'theme-orange' }">
+  <button mat-icon-button color="accent" aria-label="Search button with a search icon" type="submit">
+    <mat-icon>search</mat-icon>
+  </button>
+</form>
+

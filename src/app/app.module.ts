@@ -26,6 +26,7 @@ import { DatepickerComponent } from './datepicker/datepicker.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HttpClientModule } from '@angular/common/http';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { HttpClientModule } from '@angular/common/http';
       { path: 'manage', component: ManageReservationsComponent },
       { path: 'users', component: AdminUsersComponent },
     ]),
+    BsDatepickerModule.forRoot(),
   ],
   providers: [UserService, LoginComponent, AdminService],
   bootstrap: [AppComponent],
