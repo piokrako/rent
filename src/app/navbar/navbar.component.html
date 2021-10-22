@@ -10,19 +10,19 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav mode="side" #sidenav>
     <mat-nav-list role="list">
-      <mat-list-item role="listitem" [routerLink]="['/manage']" routerLinkActive="active">
+      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/manage']" routerLinkActive="active">
         <mat-icon mat-list-icon>event</mat-icon>
         Manage Reservations
       </mat-list-item>
-      <mat-list-item role="listitem" [routerLink]="['/create-car']" routerLinkActive="active">
+      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/create-car']" routerLinkActive="active">
         <mat-icon mat-list-icon>drive_eta</mat-icon>
         Add Car
       </mat-list-item>
-      <mat-list-item role="listitem" [routerLink]="['/users']" routerLinkActive="active">
+      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/users']" routerLinkActive="active">
         <mat-icon mat-list-icon>person_add</mat-icon>
         My Users
       </mat-list-item>
-      <mat-list-item role="listitem"  [routerLink]="['/main']" routerLinkActive="active">
+      <mat-list-item (click)="sidenav.toggle()" role="listitem"  [routerLink]="['/main']" routerLinkActive="active">
         <mat-icon mat-list-icon>home</mat-icon>
         Main Page
       </mat-list-item>

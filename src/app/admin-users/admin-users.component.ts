@@ -26,22 +26,47 @@ export class AdminUsersComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.adminService.getUsers().subscribe(res => {
-      console.log(res);
-
       const ELEMENT_DATA: User[] = [];
       this.users = res;
       this.users.forEach((user: User) => {
         const email = user.email;
         const isAdmin = user.isAdmin;
-        ELEMENT_DATA.push({email, isAdmin});
+        ELEMENT_DATA.push({ email, isAdmin });
       });
       this.dataSource.data = ELEMENT_DATA;
-      this.dataSource.paginator = this.paginator
-
-
+      this.dataSource.paginator = this.paginator;
     });
 
   }
+
+  onDelete(user: User) {
+    this.adminService.deleteUser(user.email).subscribe(res => {
+      const ELEMENT_DATA: User[] = [];
+      this.users = res;
+      this.users.forEach((user: User) => {
+        const email = user.email;
+        const isAdmin = user.isAdmin;
+        ELEMENT_DATA.push({ email, isAdmin });
+      });
+      this.dataSource.data = ELEMENT_DATA;
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+
+  onAdmin(user: User) {
+    this.adminService.makeAdmin(user.email).subscribe(res => {
+      const ELEMENT_DATA: User[] = [];
+      this.users = res;
+      this.users.forEach((user: User) => {
+        const email = user.email;
+        const isAdmin = user.isAdmin;
+        ELEMENT_DATA.push({ email, isAdmin });
+      });
+      this.dataSource.data = ELEMENT_DATA;
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+
 }
 
 

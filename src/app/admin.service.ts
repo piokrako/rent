@@ -23,5 +23,13 @@ export class AdminService {
     return this.http.get('http://localhost:3000/api/admin/users');
   }
 
+  deleteUser(email: string) {
+    return this.http.post('http://localhost:3000/api/admin/delete-user', {email: email});
+  }
+
+  makeAdmin(email: string) {
+    return this.http.post('http://localhost:3000/api/admin/admin-user', {email: email});
+  }
+
 
 }

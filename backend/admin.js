@@ -51,4 +51,83 @@ router.get("/users", (req, res, next) => {
     });
 });
 
+router.post("/delete-user", (req, res, next) => {
+  User.deleteOne({ email: req.body.email })
+    .then(() => {
+      User.find()
+        .then((users) => {
+          res.status(201).json(users);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+router.post("/admin-user", (req, res) => {
+  User.findOneAndUpdate(
+    { email: req.body.email },
+    { $set: { isAdmin: 1 } },
+    { new: true }
+  )
+    .then((user) => {
+      User.find()
+        .then((users) => {
+          res.status(200).json(users);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+// lte = less than equal, gte = greater than equal, ne = not equal
+router
+  .post("/cars", (req, res) => {
+    Reservation.find().or([
+      {
+        $and: [
+          { from: { $lte: req.body.from } },
+          { until: { $gte: req.body.from } },
+        ],
+      },
+      {
+        $and: [
+          { from: { $lte: req.body.until } },
+          { until: { $gte: req.body.until } },
+        ],
+      },
+      {
+        $and: [
+          { from: { $gt: req.body.from } },
+          { until: { $lt: req.body.until } },
+        ],
+      },
+    ]).then((cars) => {
+      if (cars[0] === undefined) {
+        Car.find()
+          .then((car) => {
+            res.status(200).json(car);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        Car.find({ _id: { $ne: car[0].car_id } })
+          .then((car) => {
+            res.status(201).json(car3);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    });
+  });
+
 module.exports = router;
