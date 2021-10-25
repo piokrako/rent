@@ -13,7 +13,7 @@ export class UserService {
   isAdmin = new Subject();
   authenticated = new BehaviorSubject(false);
   selectedCars = new Subject();
-  path = 'uploads/';
+  path = 'http://localhost:3000/uploads/';
 
   constructor(private http: HttpClient, private router: Router) { }
 

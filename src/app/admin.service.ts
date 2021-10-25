@@ -8,14 +8,16 @@ export class AdminService {
 
   constructor(private http: HttpClient) { }
 
-  createCar(brand: string, model: string, power: string, seats: Number, imgURL: string) {
+  createCar(brand: string, model: string, power: string, seats: Number, imgUrl: string) {
     const carData = {
       brand: brand,
-      model : model,
+      model: model,
       power: power,
       seats: seats,
-      imgURL: imgURL
+      imgUrl: 'http://localhost:3000/uploads/' + imgUrl
     }
+    console.log(carData);
+
     return this.http.post('http://localhost:3000/api/admin/create-car', carData);
   }
 
@@ -24,11 +26,11 @@ export class AdminService {
   }
 
   deleteUser(email: string) {
-    return this.http.post('http://localhost:3000/api/admin/delete-user', {email: email});
+    return this.http.post('http://localhost:3000/api/admin/delete-user', { email: email });
   }
 
   makeAdmin(email: string) {
-    return this.http.post('http://localhost:3000/api/admin/admin-user', {email: email});
+    return this.http.post('http://localhost:3000/api/admin/admin-user', { email: email });
   }
 
 

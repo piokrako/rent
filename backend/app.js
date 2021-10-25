@@ -1,11 +1,13 @@
+require('dotenv').config();
 const express = require("express");
+const path  = require('path');
 
 const app = express();
 
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const uri = 'mongodb+srv://admin:admin@cluster0.erfrd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.erfrd.mongodb.net/${process.env.DATABASE}?retryWrites=true&w=majority`;
 
 mongoose.connect(uri, {useNewUrlParser: true}).then(() => {
   console.log('Connected')
@@ -19,5 +21,6 @@ const adminRoutes = require('./admin');
 
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 module.exports = app;

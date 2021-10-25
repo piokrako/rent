@@ -8,14 +8,37 @@
   <ng-container *ngFor="let car of cars; let i = index">
     <mat-card class="mt-3">
       <mat-card-title>{{car.brand}}</mat-card-title>
-      <mat-card-subtitle>{{car.model}}}</mat-card-subtitle>
-      <img mat-card-image src="{{path}}/{{ car.imgUrl }}" alt="{{car.brand}} {{car.model}} - Photo">
+      <mat-card-subtitle>{{car.model}}</mat-card-subtitle>
+      <img mat-card-image src="{{path}}{{ car.imgUrl }}" alt="{{car.brand}} {{car.model}} - Photo" *ngIf="car.imgUrl">
+      <img mat-card-image src="{{path}}no_photo.png" alt="{{car.brand}} {{car.model}} - No Photo" *ngIf="!car.imgUrl">
       <mat-card-content>
+        <div class="row">
 
+          <mat-list class="d-flex row">
+            <mat-list-item>
+              <mat-icon matListIcon>bolt</mat-icon>
+              <h3 matLine>Power</h3>
+              <p matLine>
+              {{car.power}}
+              </p>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListIcon>chair</mat-icon>
+              <h3 matLine>Seats</h3>
+              <p matLine>
+              {{car.seats}}
+              </p>
+            </mat-list-item>
+          </mat-list>
+
+
+
+
+        </div>
       </mat-card-content>
       <mat-divider inset></mat-divider>
       <mat-card-actions align="end">
-
+        <button mat-raised-button color="accent">Rent</button>
       </mat-card-actions>
     </mat-card>
   </ng-container>
