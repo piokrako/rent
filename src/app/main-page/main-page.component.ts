@@ -21,6 +21,10 @@ export class MainPageComponent implements OnInit {
     this.path = this.userService.path;
   }
 
+  onRent(car: Car) {
+
+  }
+
 }
 
 export interface Car {

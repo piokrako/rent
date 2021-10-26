@@ -1,45 +1,46 @@
+<mat-card class="rounded-0">
+  <mat-card-content class="container mt-3">
+    <h1>Select a date range to see available vehicles</h1>
+    <app-datepicker></app-datepicker>
+  </mat-card-content>
+</mat-card>
 <div class="container">
-  <mat-card class="mt-3">
-    <mat-card-content>
-      <app-datepicker></app-datepicker>
-    </mat-card-content>
-  </mat-card>
-
-  <ng-container *ngFor="let car of cars; let i = index">
-    <mat-card class="mt-3">
-      <mat-card-title>{{car.brand}}</mat-card-title>
-      <mat-card-subtitle>{{car.model}}</mat-card-subtitle>
-      <img mat-card-image src="{{path}}{{ car.imgUrl }}" alt="{{car.brand}} {{car.model}} - Photo" *ngIf="car.imgUrl">
-      <img mat-card-image src="{{path}}no_photo.png" alt="{{car.brand}} {{car.model}} - No Photo" *ngIf="!car.imgUrl">
-      <mat-card-content>
-        <div class="row">
-
-          <mat-list class="d-flex row">
-            <mat-list-item>
-              <mat-icon matListIcon>bolt</mat-icon>
-              <h3 matLine>Power</h3>
-              <p matLine>
-              {{car.power}}
-              </p>
-            </mat-list-item>
-            <mat-list-item>
-              <mat-icon matListIcon>chair</mat-icon>
-              <h3 matLine>Seats</h3>
-              <p matLine>
-              {{car.seats}}
-              </p>
-            </mat-list-item>
-          </mat-list>
-
-
-
-
-        </div>
-      </mat-card-content>
-      <mat-divider inset></mat-divider>
-      <mat-card-actions align="end">
-        <button mat-raised-button color="accent">Rent</button>
-      </mat-card-actions>
-    </mat-card>
-  </ng-container>
+  <h2 class="text-center mt-3" *ngIf="!this.cars">No results</h2>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2 g-lg-3 mt-1" *ngIf="this.cars">
+    <ng-container *ngFor="let car of cars; let i = index">
+      <div class="col">
+        <mat-card class="p-0 rounded-0">
+          <img mat-card-image src="{{path}}{{ car.imgUrl }}" alt="{{car.brand}} {{car.model}} - Photo"
+            *ngIf="car.imgUrl">
+          <img mat-card-image src="{{path}}no_photo.png" alt="{{car.brand}} {{car.model}} - No Photo"
+            *ngIf="!car.imgUrl">
+          <mat-card-title class="px-3">{{car.brand}}</mat-card-title>
+          <mat-card-subtitle class="px-3">{{car.model}}</mat-card-subtitle>
+          <mat-card-content class="px-3">
+            <div class="row">
+              <div class="col d-flex align-items-center">
+                <mat-icon>bolt</mat-icon>
+                <div class="ms-2">
+                  <h3 matLine class="m-0">Power</h3>
+                  <p matLine class="m-0">
+                    {{car.power}}
+                  </p>
+                </div>
+              </div>
+              <div class="col d-flex align-items-center">
+                <mat-icon>chair</mat-icon>
+                <div class="ms-2">
+                  <h3 matLine class="m-0">Seats</h3>
+                  <p matLine class="m-0">
+                    {{car.seats}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+          <button mat-flat-button color="primary" class="btn-full" (click)="onRent(car)">Rent</button>
+        </mat-card>
+      </div>
+    </ng-container>
+  </div>
 </div>
