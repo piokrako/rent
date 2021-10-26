@@ -16,8 +16,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/save-image", upload.array("file"),
- (req, res) => {
+router.post("/save-image", upload.array("file"), (req, res) => {
   res.status(201).json({ message: "Image uploaded" });
 });
 
@@ -128,6 +127,25 @@ router.post("/cars", (req, res) => {
             console.log(error);
           });
       }
+    });
+});
+
+router.post("/rent", (req, res) => {
+  const reservation = new Reservation({
+    car_id: req.body.id,
+    from: req.body.form,
+    until: req.body.until,
+    fromDate: req.body.fromDate,
+    untilDate: req.body.untilDate,
+  });
+
+  reservation
+    .save()
+    .then(() => {
+      res.status(200).json({ message: "Car Rented" });
+    })
+    .catch((error) => {
+      console.log(error);
     });
 });
 

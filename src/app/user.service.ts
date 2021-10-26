@@ -67,7 +67,11 @@ export class UserService {
   }
 
   getCars(from: String, until: String) {
-    return this.http.post('http://localhost:3000/api/admin/cars', {from, until});
+    return this.http.post('http://localhost:3000/api/admin/cars', { from, until });
+  }
+
+  rentCar(id: any, from: any, until: any, formDate: any, untilDate: any) {
+    return this.http.post('http://localhost:3000/api/admin/rent', { id: id, from: from, until: until, formDate: formDate, untilDate: untilDate });
   }
 
 }
