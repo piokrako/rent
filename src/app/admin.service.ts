@@ -14,7 +14,7 @@ export class AdminService {
       model: model,
       power: power,
       seats: seats,
-      imgUrl: 'http://localhost:3000/uploads/' + imgUrl
+      imgUrl: imgUrl
     }
     console.log(carData);
 

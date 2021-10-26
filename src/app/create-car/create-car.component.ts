@@ -19,7 +19,7 @@ export class CreateCarComponent implements OnInit {
   }
 
   onCreate(form: NgForm) {
-    console.log(this.fileName);
+    console.log('oncreate',this.fileName);
     this.adminService.createCar(form.value.brand, form.value.model, form.value.power, form.value.seats, this.fileName).subscribe(res => { console.log(res) });
     this.fileName = '';
     form.resetForm();
@@ -29,6 +29,7 @@ export class CreateCarComponent implements OnInit {
     const file: File = event.target.files[0];
     if (file) {
       this.fileName = file.name
+      console.log(this.fileName);
       const formData = new FormData();
       formData.append("file", file, this.fileName);
       this.http.post('http://localhost:3000/api/admin/save-image', formData).subscribe(res => console.log(res));

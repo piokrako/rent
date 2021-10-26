@@ -7,7 +7,7 @@ const Reservation = require("./models/reservation");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./uploads");
+    cb(null, "./backend/uploads");
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -16,7 +16,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/save-image", upload.array("file"), (req, res) => {
+router.post("/save-image", upload.array("file"),
+ (req, res) => {
   res.status(201).json({ message: "Image uploaded" });
 });
 

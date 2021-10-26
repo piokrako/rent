@@ -68,7 +68,6 @@ export class UserService {
 
   getCars(from: String, until: String) {
     return this.http.post('http://localhost:3000/api/admin/cars', {from, until});
-
   }
 
 }
