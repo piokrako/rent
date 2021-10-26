@@ -148,4 +148,28 @@ router.post("/rent", (req, res) => {
     });
 });
 
+router.get("/rented-cars", (req, res) => {
+  Reservation.find()
+    .then((rented) => {
+      res.status(200).json(rented);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+router.post("/cancel-reservation", (req, res) => {
+  Reservation.deleteOne({
+    car_id: req.body.id,
+    fromDate: req.body.from,
+    untilDate: req.body.until,
+  })
+    .then((cars) => {
+      res.status(200).json(cars);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
 module.exports = router;

@@ -74,4 +74,6 @@ export class UserService {
     return this.http.post('http://localhost:3000/api/admin/rent', { id: id, from: from, until: until, fromDate: fromDate, untilDate: untilDate });
   }
 
+  
+
 }

@@ -1,5 +1,7 @@
+import { ObjectId } from 'mongodb';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +34,11 @@ export class AdminService {
     return this.http.post('http://localhost:3000/api/admin/admin-user', { email: email });
   }
 
+  rentedCars() {
+    return this.http.get('http://localhost:3000/api/admin/rented-cars');
+  }
+
+  cancelReservation(id: ObjectId, from: Date, until: Date) {
+    return this.http.post('http://localhost:3000/api/admin/cancel-reservation', { id: id, from: from, until: until });
+  }
 }
