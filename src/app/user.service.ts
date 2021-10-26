@@ -70,8 +70,8 @@ export class UserService {
     return this.http.post('http://localhost:3000/api/admin/cars', { from, until });
   }
 
-  rentCar(id: any, from: any, until: any, formDate: any, untilDate: any) {
-    return this.http.post('http://localhost:3000/api/admin/rent', { id: id, from: from, until: until, formDate: formDate, untilDate: untilDate });
+  rentCar(id: any, from: any, until: any, fromDate: any, untilDate: any) {
+    return this.http.post('http://localhost:3000/api/admin/rent', { id: id, from: from, until: until, fromDate: fromDate, untilDate: untilDate });
   }
 
 }

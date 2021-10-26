@@ -16,7 +16,6 @@ export class AdminService {
       seats: seats,
       imgUrl: imgUrl
     }
-    console.log(carData);
 
     return this.http.post('http://localhost:3000/api/admin/create-car', carData);
   }
@@ -32,6 +31,5 @@ export class AdminService {
   makeAdmin(email: string) {
     return this.http.post('http://localhost:3000/api/admin/admin-user', { email: email });
   }
-
 
 }

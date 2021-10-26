@@ -133,12 +133,11 @@ router.post("/cars", (req, res) => {
 router.post("/rent", (req, res) => {
   const reservation = new Reservation({
     car_id: req.body.id,
-    from: req.body.form,
+    from: req.body.from,
     until: req.body.until,
     fromDate: req.body.fromDate,
     untilDate: req.body.untilDate,
   });
-
   reservation
     .save()
     .then(() => {
