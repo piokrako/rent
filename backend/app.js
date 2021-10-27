@@ -7,7 +7,7 @@ const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.erfrd.mongodb.net/${process.env.DATABASE}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.erfrd.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`;
 
 mongoose.connect(uri, {useNewUrlParser: true}).then(() => {
   console.log('Connected')

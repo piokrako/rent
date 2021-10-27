@@ -1,5 +1,5 @@
 import { takeUntil } from 'rxjs/operators';
-import { AdminService } from './../admin.service';
+import { AdminService } from '../admin.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
