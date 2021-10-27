@@ -1,7 +1,10 @@
+import { takeUntil } from 'rxjs/operators';
 import { AdminService } from './../admin.service';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Subject } from 'rxjs';
+
 
 
 @Component({
@@ -9,9 +12,10 @@ import { NgForm } from '@angular/forms';
   templateUrl: './create-car.component.html',
   styleUrls: ['./create-car.component.scss']
 })
-export class CreateCarComponent implements OnInit {
+export class CreateCarComponent implements OnInit, OnDestroy {
 
   fileName = '';
+  private unsubscribe = new Subject();
 
   constructor(private http: HttpClient, private adminService: AdminService) { }
 
@@ -30,12 +34,12 @@ export class CreateCarComponent implements OnInit {
       this.fileName = file.name
       const formData = new FormData();
       formData.append("file", file, this.fileName);
-      this.http.post('http://localhost:3000/api/admin/save-image', formData).subscribe(res => console.log(res));
+      this.http.post('http://localhost:3000/api/admin/save-image', formData).pipe(takeUntil(this.unsubscribe)).subscribe(res => console.log(res));
     }
   }
 
-  // ngOnDestroy() {
-  //   this.unsubscribe.unsubscribe();
-  // }
+  ngOnDestroy() {
+    this.unsubscribe.unsubscribe();
+  }
 
 }

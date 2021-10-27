@@ -1,8 +1,10 @@
+import { takeUntil } from 'rxjs/operators';
 import { AdminService } from './../admin.service';
-import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ObjectId } from "mongodb";
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -10,8 +12,9 @@ import { ObjectId } from "mongodb";
   templateUrl: './manage-reservations.component.html',
   styleUrls: ['./manage-reservations.component.scss']
 })
-export class ManageReservationsComponent implements OnInit, AfterViewInit {
+export class ManageReservationsComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  private unsubscribe = new Subject();
   displayedColumns: string[] = ['car_id', 'reserved_from', 'reserved_till', 'actions'];
   dataSource = new MatTableDataSource();
 
@@ -40,8 +43,8 @@ export class ManageReservationsComponent implements OnInit, AfterViewInit {
 
 
   onDelete(reservation: Reservation) {
-    this.adminService.cancelReservation(reservation.car_id, reservation.fromDate, reservation.untilDate).subscribe( res => {
-      this.adminService.rentedCars().subscribe((cars: any) => {
+    this.adminService.cancelReservation(reservation.car_id, reservation.fromDate, reservation.untilDate).pipe(takeUntil(this.unsubscribe)).subscribe( res => {
+      this.adminService.rentedCars().pipe(takeUntil(this.unsubscribe)).subscribe((cars: any) => {
         const ELEMENT_DATA: Reservation[] = [];
         this.reservations = cars;
         this.reservations.forEach((reservation: Reservation) => {
@@ -52,6 +55,9 @@ export class ManageReservationsComponent implements OnInit, AfterViewInit {
       });
     });
 
+  }
+  ngOnDestroy() {
+    this.unsubscribe.unsubscribe();
   }
 }
 

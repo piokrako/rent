@@ -1,15 +1,18 @@
+import { takeUntil } from 'rxjs/operators';
 import { UserService } from './../user.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
+  private unsubscribe = new Subject();
   token: any;
 
   constructor(private userService: UserService, private router: Router) { }
@@ -20,7 +23,7 @@ export class LoginComponent implements OnInit {
   onLogin(form: NgForm) {
     const email = form.value.email;
     const password = form.value.password;
-    this.userService.loginUser(email, password).subscribe(
+    this.userService.loginUser(email, password).pipe(takeUntil(this.unsubscribe)).subscribe(
       result => {
         this.userService.authenticated.next(true);
         const admin = result.admin;
@@ -51,4 +54,9 @@ export class LoginComponent implements OnInit {
       this.userService.authenticated.next(true);
     }
   }
+
+  ngOnDestroy() {
+    this.unsubscribe.unsubscribe();
+  }
+
 }
