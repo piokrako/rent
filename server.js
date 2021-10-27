@@ -7,6 +7,7 @@ const port = process.env.PORT || 3000;
 const server = express();
 server.use(express.json());
 server.use(express.urlencoded({extended: false}));
+const app = require('./backend/app');
 server.use('/api', app);
 
 if (process.env.NODE_ENV === "production") {
