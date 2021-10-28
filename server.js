@@ -7,13 +7,14 @@ const port = process.env.PORT || 3000;
 const server = express();
 server.use(express.json());
 server.use(express.urlencoded({extended: false}));
+
 const app = require('./backend/app');
 server.use('/api', app);
 
 if (process.env.NODE_ENV === "production") {
   console.log(
     "PROD -> server static content under: " +
-      path.join(__dirname, "/frontend/dist")
+      path.join(__dirname, "/frontend/dist/Rent")
   );
   server.use(express.static(path.join(__dirname, "/frontend/dist/Rent")));
 } else {
