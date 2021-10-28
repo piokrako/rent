@@ -1,8 +1,10 @@
+import { environment } from './../environments/environment.prod';
 import { ObjectId } from 'mongodb';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { from } from 'rxjs';
 
+
+let API_URL = environment.baseUrl + "/api";
 @Injectable({
   providedIn: 'root'
 })
@@ -19,26 +21,26 @@ export class AdminService {
       imgUrl: imgUrl
     }
 
-    return this.http.post('http://localhost:3000/api/admin/create-car', carData);
+    return this.http.post(API_URL + '/admin/create-car', carData);
   }
 
   getUsers() {
-    return this.http.get('http://localhost:3000/api/admin/users');
+    return this.http.get(API_URL + '/admin/users');
   }
 
   deleteUser(email: string) {
-    return this.http.post('http://localhost:3000/api/admin/delete-user', { email: email });
+    return this.http.post(API_URL + '/admin/delete-user', { email: email });
   }
 
   makeAdmin(email: string) {
-    return this.http.post('http://localhost:3000/api/admin/admin-user', { email: email });
+    return this.http.post(API_URL + '/admin/admin-user', { email: email });
   }
 
   rentedCars() {
-    return this.http.get('http://localhost:3000/api/admin/rented-cars');
+    return this.http.get(API_URL + '/admin/rented-cars');
   }
 
   cancelReservation(id: ObjectId, from: Date, until: Date) {
-    return this.http.post('http://localhost:3000/api/admin/cancel-reservation', { id: id, from: from, until: until });
+    return this.http.post(API_URL + '/admin/cancel-reservation', { id: id, from: from, until: until });
   }
 }
