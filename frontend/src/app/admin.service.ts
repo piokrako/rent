@@ -3,11 +3,12 @@ import { ObjectId } from 'mongodb';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-
 let API_URL = environment.baseUrl + "/api";
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class AdminService {
 
   constructor(private http: HttpClient) { }
@@ -20,7 +21,6 @@ export class AdminService {
       seats: seats,
       imgUrl: imgUrl
     }
-
     return this.http.post(API_URL + '/admin/create-car', carData);
   }
 
