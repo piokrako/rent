@@ -23,5 +23,5 @@ if (process.env.NODE_ENV === "production") {
 }
 
 server.listen(port, function () {
-  console.log("Node server is running on http://localhost:" + port);
+  console.log("Node server is running on port " + port);
 });
