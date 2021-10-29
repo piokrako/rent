@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="">
+<mat-toolbar color="primary" class="flex-shrink-0">
   <button mat-icon-button class="menu-icon" aria-label="Menu icon-button with menu icon" (click)="sidenav.toggle()">
     <mat-icon>menu</mat-icon>
   </button>
@@ -7,14 +7,15 @@
   <button mat-button [routerLink]="['/']">Login</button>
   <button mat-button [routerLink]="['/register']">Register</button>
 </mat-toolbar>
-<mat-sidenav-container class="example-container">
+<mat-sidenav-container class="flex-grow-1">
   <mat-sidenav mode="side" #sidenav>
     <mat-nav-list role="list">
       <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/manage']" routerLinkActive="active">
         <mat-icon mat-list-icon>event</mat-icon>
         Manage Reservations
       </mat-list-item>
-      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/create-car']" routerLinkActive="active">
+      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/create-car']"
+        routerLinkActive="active">
         <mat-icon mat-list-icon>drive_eta</mat-icon>
         Add Car
       </mat-list-item>
@@ -22,16 +23,13 @@
         <mat-icon mat-list-icon>person_add</mat-icon>
         My Users
       </mat-list-item>
-      <mat-list-item (click)="sidenav.toggle()" role="listitem"  [routerLink]="['/main']" routerLinkActive="active">
+      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/main']" routerLinkActive="active">
         <mat-icon mat-list-icon>home</mat-icon>
         Main Page
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content class="w-100">
-
-<router-outlet></router-outlet>
-
-  </mat-sidenav-content >
-
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
 </mat-sidenav-container>

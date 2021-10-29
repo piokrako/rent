@@ -24,6 +24,5 @@ const adminRoutes = require('./admin');
 
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 module.exports = app;

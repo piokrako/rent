@@ -10,6 +10,7 @@ server.use(express.urlencoded({extended: false}));
 
 const app = require('./backend/app');
 server.use('/api', app);
+server.use('/uploads', express.static(path.join(__dirname, '/backend/uploads')));
 
 if (process.env.NODE_ENV === "production") {
   console.log(
