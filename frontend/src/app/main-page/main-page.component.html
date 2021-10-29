@@ -4,7 +4,7 @@
     <app-datepicker></app-datepicker>
   </mat-card-content>
 </mat-card>
-<div class="container">
+<div class="container mb-3">
   <h2 class="text-center mt-3" *ngIf="!this.cars">No results</h2>
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2 g-lg-3 mt-1" *ngIf="this.cars">
     <ng-container *ngFor="let car of cars; let i = index">

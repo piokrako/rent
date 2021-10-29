@@ -6,20 +6,27 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 router.post("/signup", (req, res, next) => {
-  bcrypt.hash(req.body.password, 10).then((hash) => {
-    const user = new User({
-      email: req.body.email,
-      password: hash,
-      isAdmin: 0,
-    });
-    user
-      .save()
-      .then((result) => {
-        res.status(201).json({ message: "User created" });
-      })
-      .catch((error) => {
-        console.log(error);
+  User.findOne({ email: req.body.email }).then((user) => {
+    if (user) {
+      console.log(user.email, ' - User already exists')
+      res.status(409).json({ message: "User already exists" });
+    } else {
+      bcrypt.hash(req.body.password, 10).then((hash) => {
+        const user = new User({
+          email: req.body.email,
+          password: hash,
+          isAdmin: 0,
+        });
+        user
+          .save()
+          .then((result) => {
+            res.status(201).json({ message: "User created" });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       });
+    }
   });
 });
 
