@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntil } from 'rxjs/operators';
 import { UserService } from '../user.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -15,30 +16,46 @@ export class LoginComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
   token: any;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router, private _snackBar : MatSnackBar) { }
 
   ngOnInit(): void {
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+    });
   }
 
   onLogin(form: NgForm) {
     const email = form.value.email;
     const password = form.value.password;
-    this.userService.loginUser(email, password).pipe(takeUntil(this.unsubscribe)).subscribe(
-      result => {
-        this.userService.authenticated.next(true);
-        const admin = result.admin;
-        const token = result.token;
-        this.userService.isAdmin.next(admin);
-        const expires = result.expiresIn;
-        if (token) {
-          this.userService.setTimer(expires);
-          const now = new Date();
-          const expirationDate = new Date(now.getTime() + expires * 1000);
-          this.userService.saveUserData(token, expirationDate, admin);
-          this.router.navigate(['/main']);
+
+    if (email && password && !form.invalid) {
+      this.userService.loginUser(email, password).pipe(takeUntil(this.unsubscribe)).subscribe(
+        result => {
+          this.userService.authenticated.next(true);
+          const admin = result.admin;
+          const token = result.token;
+          this.userService.isAdmin.next(admin);
+          const expires = result.expiresIn;
+          if (token) {
+            this.userService.setTimer(expires);
+            const now = new Date();
+            const expirationDate = new Date(now.getTime() + expires * 1000);
+            this.userService.saveUserData(token, expirationDate, admin);
+            this.router.navigate(['/main']);
+          }
+        },
+        (error) => {
+
+          this.openSnackBar(error.error.message, "Close");
+        console.log(error);
         }
-      }
-    )
+      )
+    }
+
 
   }
 
