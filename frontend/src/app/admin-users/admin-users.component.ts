@@ -1,7 +1,7 @@
 import { takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { AdminService } from '../admin.service';
+import { AdminService } from '../services/admin.service';
 import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 

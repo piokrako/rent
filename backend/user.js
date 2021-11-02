@@ -20,7 +20,12 @@ router.post("/signup", (req, res, next) => {
         user
           .save()
           .then((result) => {
-            res.status(201).json({ message: "User created" });
+            const token = jwt.sign(
+              { email: req.body.email },
+              "secret-long",
+              { expiresIn: "1h" }
+            );
+            res.status(201).json({token, message: "User created" });
           })
           .catch((error) => {
             console.log(error);

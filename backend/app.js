@@ -16,6 +16,18 @@ mongoose.connect(uri, {useNewUrlParser: true}).then(() => {
   console.log('Connected')
 }).catch(err => console.log(err));
 
+function verifyToken(req, res, next) {
+  if(!req.headers.authorization) {
+    return res.status(401).send('Unauthorized request');
+  }
+  let token = req.headers.authorization.split(' ')[1]
+  if(token === 'null') {
+    return res.status(401).send('Unauthorized request')
+  }
+
+  let payload = jwt.verify(token, 'secretKey')
+}
+
 app.use(cors());
 app.use(express.json());
 

@@ -1,7 +1,8 @@
+import { environment } from './../../environments/environment';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 @Component({
@@ -14,7 +15,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
 
   cars: any;
-  path: string;
+  path: String = environment.baseUrl + "/uploads/";
 
   constructor(private userService: UserService, private _snackBar: MatSnackBar) { }
 
@@ -22,8 +23,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.userService.selectedCars.subscribe((res) => {
       this.cars = res;
     })
-
-    this.path = this.userService.path;
   }
 
   openSnackBar(message: string, action: string) {

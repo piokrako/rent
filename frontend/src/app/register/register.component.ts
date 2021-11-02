@@ -1,6 +1,7 @@
+import { AuthService } from './../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntil } from 'rxjs/operators';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -12,7 +13,7 @@ import { Subject } from 'rxjs';
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
-  constructor(private userService: UserService,  private _snackBar: MatSnackBar) { }
+  constructor(private authService: AuthService,  private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -28,7 +29,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     const email = form.value.email;
     const pass = form.value.password;
     if (email && pass && form.valid) {
-      this.userService.createUser(email, pass).pipe(takeUntil(this.unsubscribe)).subscribe(res => {
+      this.authService.createUser(email, pass).pipe(takeUntil(this.unsubscribe)).subscribe(res => {
         this.openSnackBar(`User `+ email + ` was created!`, "Close")
         console.log(res);
       },
