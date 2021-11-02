@@ -21,12 +21,13 @@ router.post("/save-image", upload.array("file"), (req, res) => {
 });
 
 router.post("/create-car", (req, res, next) => {
+  const url = req.protocol + '://' + req.get('host');
   const car = new Car({
     brand: req.body.brand,
     model: req.body.model,
     power: req.body.power,
     seats: req.body.seats,
-    imgUrl: req.body.imgUrl,
+    imgUrl: url + '/uploads/' + req.body.imgUrl,
   });
 
   car
