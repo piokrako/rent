@@ -13,32 +13,34 @@ import { Subject } from 'rxjs';
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
-  constructor(private authService: AuthService,  private _snackBar: MatSnackBar) { }
+  constructor(private authService: AuthService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-  }
-
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      horizontalPosition: 'end',
-      verticalPosition: 'top',
-    });
   }
 
   onRegister(form: NgForm) {
     const email = form.value.email;
     const pass = form.value.password;
     if (email && pass && form.valid) {
-      this.authService.createUser(email, pass).pipe(takeUntil(this.unsubscribe)).subscribe(res => {
-        this.openSnackBar(`User `+ email + ` was created!`, "Close")
-        console.log(res);
-      },
-      (error) => {
-        this.openSnackBar(`Conflict: User already exists!`, "Close")
-        console.log(error)},
-      () => {
-        form.resetForm();
-      });
+      this.authService.createUser(email, pass).pipe(takeUntil(this.unsubscribe)).subscribe(
+        res => {
+          this._snackBar.open(`User ` + email + ` was created!`, "Close", {
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+          });
+          console.log(res);
+        },
+        err => {
+          this._snackBar.open(`Conflict: User already exists!`, "Close", {
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+          });
+          console.log(err)
+        },
+        () => {
+          form.resetForm();
+        }
+      );
     }
   }
 

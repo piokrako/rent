@@ -16,16 +16,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private unsubscribe = new Subject();
 
-  constructor( private authService: AuthService, private router: Router, private _snackBar: MatSnackBar) { }
+  constructor(private authService: AuthService, private router: Router, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-  }
-
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      horizontalPosition: 'end',
-      verticalPosition: 'top',
-    });
   }
 
   onLogin(form: NgForm) {
@@ -34,12 +27,19 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     if (email && password && !form.invalid) {
       this.authService.login(email, password).pipe(takeUntil(this.unsubscribe)).subscribe(
-        result => {
-          this.openSnackBar('Logged successfully' + result, "Close");
+        res => {
+          this._snackBar.open("Logged successfully", "Close", {
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+          });
+          console.log(res);
         },
-        (error) => {
-          this.openSnackBar(error.error.message, "Close");
-          console.log(error);
+        err => {
+          this._snackBar.open(err.error.message, "Close", {
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+          });
+          console.log(err);
         }
       )
     }

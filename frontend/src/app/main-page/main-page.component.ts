@@ -37,10 +37,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.userService.rentCar(car._id, from, until, fromDate, untilDate).pipe(takeUntil(this.unsubscribe)).subscribe(
       res => console.log(res),
       err => console.log('Error: ', err),
-      () => this.openSnackBar(`You rented ` + car.brand + ' ' + car.model, "OK"));
+      () => {
+        this._snackBar.open(`You rented ` + car.brand + ' ' + car.model, "OK", {
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+        });
+      });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.unsubscribe.unsubscribe();
   }
 }

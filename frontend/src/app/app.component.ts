@@ -1,3 +1,4 @@
+import { AuthService } from './services/auth.service';
 import { LoginComponent } from './login/login.component';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'Rent';
 
-  constructor( private login : LoginComponent) {
+  constructor(private login: LoginComponent) {
 
   }
 

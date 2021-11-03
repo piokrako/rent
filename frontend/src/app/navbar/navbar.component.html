@@ -4,8 +4,10 @@
   </button>
   <span>Rent a Car</span>
   <span class="spacer"></span>
-  <button mat-button [routerLink]="['/']">Login</button>
-  <button mat-button [routerLink]="['/register']">Register</button>
+  <button mat-button *ngIf="!authService.loggedIn()" [routerLink]="['/']" routerLinkActive="active">Login</button>
+  <button mat-button *ngIf="!authService.loggedIn()" [routerLink]="['/register']" routerLinkActive="active">Register</button>
+  <button mat-button *ngIf="authService.loggedIn()" (click)="authService.logout()">Logout</button>
+
 </mat-toolbar>
 <mat-sidenav-container class="flex-grow-1">
   <mat-sidenav mode="side" #sidenav>

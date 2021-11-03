@@ -5,59 +5,97 @@ const User = require("./models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-router.post("/signup", (req, res, next) => {
-  User.findOne({ email: req.body.email }).then((user) => {
-    if (user) {
-      console.log(user.email, ' - User already exists')
-      res.status(409).json({ message: "User already exists" });
-    } else {
-      bcrypt.hash(req.body.password, 10).then((hash) => {
-        const user = new User({
-          email: req.body.email,
-          password: hash,
-          isAdmin: 0,
-        });
-        user
-          .save()
-          .then((result) => {
-            const token = jwt.sign(
-              { email: req.body.email },
-              "secret-long",
-              { expiresIn: "1h" }
-            );
-            res.status(201).json({token, message: "User created" });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      });
-    }
+router.post("/signup", async (req, res, next) => {
+  const hash = await bcrypt.hash(req.body.password, 10);
+  const newUser = new User({
+    email: req.body.email,
+    isAdmin: 0,
+    password: hash,
   });
+
+  User.findOne({ email: req.body.email })
+    .then((registeredUser) => {
+      if (registeredUser) {
+        console.log(registeredUser.email, " - User already exists");
+        res
+          .status(409)
+          .json({ message: "Registration Error! User already exists" });
+      } else {
+        newUser
+          .save()
+          .then((savedUser) => {
+            let isAdmin = 0;
+            let payload = {
+              subject: savedUser._id,
+              userId: savedUser._id,
+              email: savedUser.email,
+              isAdmin: isAdmin,
+            };
+
+            const token = jwt.sign(payload, JWT_ENCRIPTION_PASSWORD, {
+              expiresIn: JWT_EXPIRES_IN,
+            });
+
+            const response_body = {
+              token: token,
+              expiresIn: JWT_EXPIRES_IN,
+              email: savedUser.email,
+              isAdmin: isAdmin,
+              message: "User created",
+            };
+            res.status(201).json(response_body);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  console.log("Register user() finished");
 });
 
 router.post("/login", (req, res, next) => {
   let fetcheduser;
   User.findOne({ email: req.body.email })
     .then((user) => {
-      fetcheduser = user;
       if (!user) {
         return res.status(404).json({ message: "Auth Failed" });
       }
-      return bcrypt.compare(req.body.password, user.password);
-    })
-    .then((result) => {
-      if (!result) {
-        res.status(404).json({ message: "Auth Failed" });
-      }
-      const administrator = fetcheduser.isAdmin;
-      const token = jwt.sign(
-        { email: fetcheduser.email, userId: fetcheduser._id },
-        "secret-long",
-        { expiresIn: "1h" }
-      );
-      res
-        .status(200)
-        .json({ token: token, expiresIn: 3600, admin: administrator });
+      fetcheduser = user;
+      return bcrypt
+        .compare(req.body.password, user.password)
+        .then((result) => {
+          if (!result) {
+            console.log("Auth failed: Password does not match.");
+            return res
+              .status(401)
+              .json({ message: "Auth failed: Password does not match." });
+          }
+          console.log("User found. Password is OK. Generate token...");
+          const payload = {
+            subject: fetcheduser._id,
+            userId: fetcheduser._id,
+            email: fetcheduser.email,
+            isAdmin: fetcheduser.isAdmin,
+          };
+          const token = jwt.sign(payload, JWT_ENCRIPTION_PASSWORD, {
+            expiresIn: JWT_EXPIRES_IN,
+          });
+          console.log("token: " + token);
+
+          const response_body = {
+            token: token,
+            expiresIn: JWT_EXPIRES_IN,
+            email: fetcheduser.email,
+            isAdmin: fetcheduser.isAdmin,
+          };
+          res.status(200).json(response_body);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);

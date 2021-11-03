@@ -12,7 +12,6 @@ let API_URL = environment.baseUrl + "/api";
 })
 
 export class AuthService {
-
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this._isLoggedIn$.asObservable();
   tokenTimer: any;
@@ -31,9 +30,9 @@ export class AuthService {
       email: email, password: passowrd
     }).pipe(
       tap((response: any) => {
-
-        this.saveUserData(response.token, response.expiration, response.admin);
+        this.saveUserData(response.token, response.expiresIn, response.admin);
         this._isLoggedIn$.next(true);
+        this.router.navigate(['/main']);
       }),
       shareReplay()
     );
@@ -42,6 +41,14 @@ export class AuthService {
   loggedIn() {
     return !!this.token;
   }
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiration');
+    localStorage.removeItem('admin');
+    this.router.navigate(['/login']);
+  }
+
   getToken() {
     return this.token;
   }
