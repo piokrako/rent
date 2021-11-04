@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from './../../environments/environment';
 import { shareReplay, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -21,7 +22,7 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private _snackBar: MatSnackBar) {
     this._isLoggedIn$.next(!!this.token);
   }
 
@@ -30,7 +31,7 @@ export class AuthService {
       email: email, password: passowrd
     }).pipe(
       tap((response: any) => {
-        this.saveUserData(response.token, response.expiresIn, response.admin);
+        this.saveUserData(response.token, response.expiresIn, response.isAdmin);
         this._isLoggedIn$.next(true);
         this.router.navigate(['/main']);
       }),
@@ -43,14 +44,16 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expiration');
-    localStorage.removeItem('admin');
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 
   getToken() {
     return this.token;
+  }
+
+  isAdmin() {
+    return localStorage.getItem('admin');
   }
 
   changeAdmin(data: any) {
@@ -69,31 +72,25 @@ export class AuthService {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expiration.toString());
     localStorage.setItem('admin', admin);
+    this.setTimer(expiration)
   }
 
   private setTimer(duration: any) {
-    this.tokenTimer = setTimeout(() => { this.onLogout() }, duration * 1000);
+    this.tokenTimer = setTimeout(() => {
+      this._snackBar.open("You've been logged out!", "Close", {
+        duration: 3600,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+      });
+      this.onLogout()
+    }, duration * 1000);
   }
 
   private onLogout() {
     this._isLoggedIn$.next(false);
     clearTimeout(this.tokenTimer);
     this.changeAdmin(0);
-    localStorage.removeAll();
-    this.router.navigate(['']);
-  }
-
-  private getUserData() {
-    const token = localStorage.getItem('token');
-    const expiration = localStorage.getItem('expiration');
-    const admin = localStorage.getItem('admin');
-    if (!token || !expiration) {
-      return;
-    }
-    return {
-      token: token,
-      expirationDate: new Date(expiration),
-      admin: admin
-    };
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

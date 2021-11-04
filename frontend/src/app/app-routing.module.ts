@@ -14,11 +14,10 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: 'main', component: MainPageComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'create-car', component: CreateCarComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'manage', component: ManageReservationsComponent,
@@ -26,15 +25,13 @@ const routes: Routes = [
   },
   {
     path: 'users', component: AdminUsersComponent,
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
 ];
 
 @NgModule({
   // imports: [RouterModule.forChild(routes)],
   imports: [RouterModule.forRoot(routes)],
-
-
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -39,6 +39,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       err => console.log('Error: ', err),
       () => {
         this._snackBar.open(`You rented ` + car.brand + ' ' + car.model, "OK", {
+          duration: 3600,
           horizontalPosition: 'end',
           verticalPosition: 'top',
         });

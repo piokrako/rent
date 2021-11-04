@@ -25,6 +25,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.authService.createUser(email, pass).pipe(takeUntil(this.unsubscribe)).subscribe(
         res => {
           this._snackBar.open(`User ` + email + ` was created!`, "Close", {
+            duration: 3600,
             horizontalPosition: 'end',
             verticalPosition: 'top',
           });
@@ -32,6 +33,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         },
         err => {
           this._snackBar.open(`Conflict: User already exists!`, "Close", {
+            duration: 3600,
             horizontalPosition: 'end',
             verticalPosition: 'top',
           });

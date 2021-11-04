@@ -5,6 +5,9 @@ const User = require("./models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const JWT_ENCRIPTION_PASSWORD = process.env.JWT_ENCRIPTION_PASSWORD;
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
+
 router.post("/signup", async (req, res, next) => {
   const hash = await bcrypt.hash(req.body.password, 10);
   const newUser = new User({

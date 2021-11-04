@@ -1,7 +1,6 @@
 import { AuthService } from './../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntil } from 'rxjs/operators';
-import { UserService } from '../services/user.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -29,6 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService.login(email, password).pipe(takeUntil(this.unsubscribe)).subscribe(
         res => {
           this._snackBar.open("Logged successfully", "Close", {
+            duration: 3600,
             horizontalPosition: 'end',
             verticalPosition: 'top',
           });
@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         },
         err => {
           this._snackBar.open(err.error.message, "Close", {
+            duration: 3600,
             horizontalPosition: 'end',
             verticalPosition: 'top',
           });

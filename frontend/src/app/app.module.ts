@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -46,6 +47,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
   ],
   imports: [
     BrowserModule,
+    MatBottomSheetModule,
     MatSnackBarModule,
     HttpClientModule,
     MatTableModule,
@@ -76,4 +78,4 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

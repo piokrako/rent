@@ -4,7 +4,7 @@ const router = express.Router();
 const Car = require("./models/car");
 const User = require("./models/user");
 const Reservation = require("./models/reservation");
-const helpers = require('./helpers');
+const verifyToken = require('./verify-token');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -21,7 +21,7 @@ router.post("/save-image",  upload.array("file"), (req, res) => {
   res.status(201).json({ message: "Image uploaded" });
 });
 
-router.post("/create-car", helpers.verifyToken, (req, res, next) => {
+router.post("/create-car", verifyToken, (req, res, next) => {
   const car = new Car({
     brand: req.body.brand,
     model: req.body.model,
@@ -40,7 +40,7 @@ router.post("/create-car", helpers.verifyToken, (req, res, next) => {
     });
 });
 
-router.get("/users", helpers.verifyToken, (req, res, next) => {
+router.get("/users", verifyToken, (req, res, next) => {
   User.find({}, "email isAdmin")
     .then((user) => {
       if (!user) {
@@ -53,7 +53,7 @@ router.get("/users", helpers.verifyToken, (req, res, next) => {
     });
 });
 
-router.post("/delete-user", helpers.verifyToken, (req, res, next) => {
+router.post("/delete-user", verifyToken, (req, res, next) => {
   User.deleteOne({ email: req.body.email })
     .then(() => {
       User.find()
@@ -69,7 +69,7 @@ router.post("/delete-user", helpers.verifyToken, (req, res, next) => {
     });
 });
 
-router.post("/admin-user", helpers.verifyToken, (req, res) => {
+router.post("/admin-user", verifyToken, (req, res) => {
   User.findOneAndUpdate(
     { email: req.body.email },
     { $set: { isAdmin: 1 } },
@@ -131,7 +131,7 @@ router.post("/cars", (req, res) => {
     });
 });
 
-router.post("/rent", helpers.verifyToken, (req, res) => {
+router.post("/rent", verifyToken, (req, res) => {
   const reservation = new Reservation({
     car_id: req.body.id,
     from: req.body.from,
@@ -149,7 +149,7 @@ router.post("/rent", helpers.verifyToken, (req, res) => {
     });
 });
 
-router.get("/rented-cars", helpers.verifyToken, (req, res) => {
+router.get("/rented-cars", verifyToken, (req, res) => {
   Reservation.find()
     .then((rented) => {
       res.status(200).json(rented);
@@ -159,7 +159,7 @@ router.get("/rented-cars", helpers.verifyToken, (req, res) => {
     });
 });
 
-router.post("/cancel-reservation", helpers.verifyToken, (req, res) => {
+router.post("/cancel-reservation", verifyToken, (req, res) => {
   Reservation.deleteOne({
     car_id: req.body.id,
     fromDate: req.body.from,
