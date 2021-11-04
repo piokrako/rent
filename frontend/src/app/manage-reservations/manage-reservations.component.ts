@@ -1,5 +1,5 @@
 import { takeUntil } from 'rxjs/operators';
-import { AdminService } from '../admin.service';
+import { AdminService } from '../services/admin.service';
 import { AfterViewInit, Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';

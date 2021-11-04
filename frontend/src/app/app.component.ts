@@ -1,4 +1,3 @@
-import { LoginComponent } from './login/login.component';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,12 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'Rent';
 
-  constructor( private login : LoginComponent) {
-
+  constructor() {
   }
 
   ngOnInit() {
-    this.login.autoAuthUser();
-    
   }
 }

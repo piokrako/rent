@@ -1,5 +1,5 @@
 import { takeUntil } from 'rxjs/operators';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as moment from 'moment';
