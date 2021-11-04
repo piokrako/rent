@@ -69,6 +69,7 @@ export class AuthService {
   }
 
   private saveUserData(token: string, expiration: Date, admin: any) {
+    console.log(expiration);
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expiration.toString());
     localStorage.setItem('admin', admin);

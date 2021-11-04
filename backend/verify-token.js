@@ -23,11 +23,13 @@ const verifyToken = (req, res, next) => {
   if (token === "null") {
     return res.status(401).send("Unauthorized request 2");
   }
-
+  //token exists
   let payload = jwt.verify(token, JWT_ENCRIPTION_PASSWORD, function (err, pl) {
     if (err) {
+      console.log('err', err);
       return res.status(401).send("Unauthorized request 3");
     } else {
+      console.log('pl',pl);
       if (!pl) {
         return res.status(401).send("Unauthorized request 4 ");
       }
@@ -36,6 +38,7 @@ const verifyToken = (req, res, next) => {
       next();
     }
   });
+
 };
 
 module.exports = verifyToken;
