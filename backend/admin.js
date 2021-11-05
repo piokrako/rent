@@ -4,21 +4,38 @@ const router = express.Router();
 const Car = require("./models/car");
 const User = require("./models/user");
 const Reservation = require("./models/reservation");
-const verifyToken = require('./verify-token');
+const verifyToken = require("./verify-token");
+const { uploadFile, getFileStream } = require("./s3");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./backend/uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "./backend/uploads");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.originalname);
+//   },
+// });
+
+// const upload = multer({ storage: storage });
+
+// router.post("/save-image", upload.array("file"), (req, res) => {
+//   console.log(req.file);
+//   res.status(201).json({ message: "Image uploaded" });
+// });
+
+const upload = multer({ dest: "backend/uploads/" });
+
+router.get("/uploads/:key", (req, res) => {
+  const key = req.params.key;
+  const readStream = getFileStream(key);
+  readStream.pipe(res);
 });
 
-const upload = multer({ storage: storage });
-
-router.post("/save-image",  upload.array("file"), (req, res) => {
-  res.status(201).json({ message: "Image uploaded" });
+router.post("/save-image", upload.single("file"), async (req, res) => {
+  const file = req.file;
+  const result = await uploadFile(file);
+  await unlinkFile(file.path)
+  res.send({ imageKey: `${result.Key}` });
 });
 
 router.post("/create-car", verifyToken, (req, res, next) => {
@@ -29,11 +46,11 @@ router.post("/create-car", verifyToken, (req, res, next) => {
     seats: req.body.seats,
     imgUrl: req.body.imgUrl,
   });
-
+console.log(req);
   car
     .save()
     .then((response) => {
-      res.status(201).json({ message: "Car created" });
+      res.status(201).json({ message: "Car created", req });
     })
     .catch((error) => {
       console.log(error);

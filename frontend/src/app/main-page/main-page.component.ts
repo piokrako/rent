@@ -15,13 +15,14 @@ export class MainPageComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
 
   cars: any;
-  path: String = environment.baseUrl + "/uploads/";
+  path: String = environment.baseUrl + "/api/admin/uploads/";
 
   constructor(private userService: UserService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.userService.selectedCars.subscribe((res) => {
       this.cars = res;
+      console
     })
   }
 
