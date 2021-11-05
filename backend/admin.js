@@ -53,7 +53,7 @@ console.log(req);
   car
     .save()
     .then((response) => {
-      res.status(201).json({ message: "Car created", req });
+      res.status(201).json({ message: "Car created"});
     })
     .catch((error) => {
       console.log(error);
