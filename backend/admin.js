@@ -6,6 +6,9 @@ const User = require("./models/user");
 const Reservation = require("./models/reservation");
 const verifyToken = require("./verify-token");
 const { uploadFile, getFileStream } = require("./s3");
+const fs = require('fs');
+const util = require('util');
+const unlinkFile = util.promisify(fs.unlink);
 
 // const storage = multer.diskStorage({
 //   destination: function (req, file, cb) {
@@ -34,7 +37,7 @@ router.get("/uploads/:key", (req, res) => {
 router.post("/save-image", upload.single("file"), async (req, res) => {
   const file = req.file;
   const result = await uploadFile(file);
-  await unlinkFile(file.path)
+  await unlinkFile(file.path);
   res.send({ imageKey: `${result.Key}` });
 });
 
