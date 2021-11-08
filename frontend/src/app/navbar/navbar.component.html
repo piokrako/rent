@@ -4,28 +4,48 @@
   </button>
   <span>Rent a Car</span>
   <span class="spacer"></span>
-  <button mat-button [routerLink]="['/']">Login</button>
-  <button mat-button [routerLink]="['/register']">Register</button>
+  <button mat-button *ngIf="!authService.loggedIn()" [routerLink]="['/login']" routerLinkActive="active">Login</button>
+  <button mat-button *ngIf="!authService.loggedIn()" [routerLink]="['/register']"
+    routerLinkActive="active">Register</button>
+  <button mat-button *ngIf="authService.loggedIn()" (click)="authService.logout()">Logout</button>
 </mat-toolbar>
 <mat-sidenav-container class="flex-grow-1">
   <mat-sidenav mode="side" #sidenav>
     <mat-nav-list role="list">
-      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/manage']" routerLinkActive="active">
+      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/main']" routerLinkActive="active"
+        *ngIf="authService.isAdmin() === '1'">
+        <mat-icon mat-list-icon>home</mat-icon>
+        Main Page
+      </mat-list-item>
+      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/manage']" routerLinkActive="active"
+        *ngIf="authService.isAdmin() === '1'">
         <mat-icon mat-list-icon>event</mat-icon>
         Manage Reservations
       </mat-list-item>
-      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/create-car']"
-        routerLinkActive="active">
-        <mat-icon mat-list-icon>drive_eta</mat-icon>
-        Add Car
-      </mat-list-item>
-      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/users']" routerLinkActive="active">
+      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/users']" routerLinkActive="active"
+        *ngIf="authService.isAdmin() === '1'">
         <mat-icon mat-list-icon>person_add</mat-icon>
         My Users
       </mat-list-item>
-      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/main']" routerLinkActive="active">
-        <mat-icon mat-list-icon>home</mat-icon>
-        Main Page
+      <mat-list-item (click)="sidenav.toggle()" role="listitem" [routerLink]="['/create-car']" routerLinkActive="active"
+        *ngIf="authService.isAdmin() === '1'">
+        <mat-icon mat-list-icon>drive_eta</mat-icon>
+        Add Car
+      </mat-list-item>
+      <mat-list-item (click)="sidenav.toggle();" role="listitem" [routerLink]="['/login']" routerLinkActive="active"
+        *ngIf="!authService.loggedIn()">
+        <mat-icon mat-list-icon>login</mat-icon>
+        Login
+      </mat-list-item>
+      <mat-list-item (click)="sidenav.toggle();" role="listitem" [routerLink]="['/register']" routerLinkActive="active"
+        *ngIf="!authService.loggedIn()">
+        <mat-icon mat-list-icon>person_add</mat-icon>
+        Register
+      </mat-list-item>
+      <mat-list-item (click)="sidenav.toggle();authService.logout()" role="listitem" [routerLink]="['/login']"
+        routerLinkActive="active" *ngIf="authService.loggedIn()">
+        <mat-icon mat-list-icon>logout</mat-icon>
+        Logout
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>

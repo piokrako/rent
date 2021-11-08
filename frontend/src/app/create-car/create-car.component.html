@@ -41,7 +41,7 @@
     <mat-divider inset></mat-divider>
     <mat-card-actions align="end">
       <button mat-raised-button color="primary" type="submit" form="ngForm" (click)="createForm.ngSubmit.emit()"
-      [disabled]="!createForm.form.valid">CREATE</button>
+      [disabled]="!createForm.form.valid || isButtonDisabled">CREATE</button>
     </mat-card-actions>
   </mat-card>
 </div>

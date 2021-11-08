@@ -17,7 +17,11 @@ if (process.env.NODE_ENV === "production") {
     "PROD -> server static content under: " +
       path.join(__dirname, "/backend/angular")
   );
-  server.use(express.static(path.join(__dirname, "/backend/angular")));
+
+  server.use(express.static("build"));
+  server.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname,  "build", "/backend/angular/index.html"));
+  });
 } else {
   console.log("NON PROD -> run ng serve");
   require("dotenv").config();

@@ -4,23 +4,28 @@ const router = express.Router();
 const Car = require("./models/car");
 const User = require("./models/user");
 const Reservation = require("./models/reservation");
+const verifyToken = require("./verify-token");
+const { uploadFile, getFileStream } = require("./s3");
+const fs = require("fs");
+const util = require("util");
+const unlinkFile = util.promisify(fs.unlink);
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./backend/uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
+const upload = multer({ dest: "backend/uploads/" });
+
+router.get("/uploads/:key", (req, res) => {
+  const key = req.params.key;
+  const readStream = getFileStream(key);
+  readStream.pipe(res);
 });
 
-const upload = multer({ storage: storage });
-
-router.post("/save-image", upload.array("file"), (req, res) => {
-  res.status(201).json({ message: "Image uploaded" });
+router.post("/save-image", upload.single("file"), async (req, res) => {
+  const file = req.file;
+  const result = await uploadFile(file);
+  await unlinkFile(file.path);
+  res.send({ imageKey: `${result.Key}` });
 });
 
-router.post("/create-car", (req, res, next) => {
+router.post("/create-car", verifyToken, (req, res, next) => {
   const url = req.protocol + '://' + req.get('host');
   const car = new Car({
     brand: req.body.brand,
@@ -29,7 +34,7 @@ router.post("/create-car", (req, res, next) => {
     seats: req.body.seats,
     imgUrl: url + '/uploads/' + req.body.imgUrl,
   });
-
+  console.log(req);
   car
     .save()
     .then((response) => {
@@ -40,7 +45,7 @@ router.post("/create-car", (req, res, next) => {
     });
 });
 
-router.get("/users", (req, res, next) => {
+router.get("/users", verifyToken, (req, res, next) => {
   User.find({}, "email isAdmin")
     .then((user) => {
       if (!user) {
@@ -53,7 +58,7 @@ router.get("/users", (req, res, next) => {
     });
 });
 
-router.post("/delete-user", (req, res, next) => {
+router.post("/delete-user", verifyToken, (req, res, next) => {
   User.deleteOne({ email: req.body.email })
     .then(() => {
       User.find()
@@ -69,7 +74,7 @@ router.post("/delete-user", (req, res, next) => {
     });
 });
 
-router.post("/admin-user", (req, res) => {
+router.post("/admin-user", verifyToken, (req, res) => {
   User.findOneAndUpdate(
     { email: req.body.email },
     { $set: { isAdmin: 1 } },
@@ -131,7 +136,7 @@ router.post("/cars", (req, res) => {
     });
 });
 
-router.post("/rent", (req, res) => {
+router.post("/rent", verifyToken, (req, res) => {
   const reservation = new Reservation({
     car_id: req.body.id,
     from: req.body.from,
@@ -149,7 +154,7 @@ router.post("/rent", (req, res) => {
     });
 });
 
-router.get("/rented-cars", (req, res) => {
+router.get("/rented-cars", verifyToken, (req, res) => {
   Reservation.find()
     .then((rented) => {
       res.status(200).json(rented);
@@ -159,7 +164,7 @@ router.get("/rented-cars", (req, res) => {
     });
 });
 
-router.post("/cancel-reservation", (req, res) => {
+router.post("/cancel-reservation", verifyToken, (req, res) => {
   Reservation.deleteOne({
     car_id: req.body.id,
     fromDate: req.body.from,

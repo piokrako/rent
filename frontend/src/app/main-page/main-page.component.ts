@@ -1,7 +1,8 @@
+import { environment } from './../../environments/environment';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 @Component({
@@ -14,16 +15,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
 
   cars: any;
-  path: string;
+  path: String = environment.baseUrl + "/api/admin/uploads/";
 
   constructor(private userService: UserService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.userService.selectedCars.subscribe((res) => {
       this.cars = res;
+      console
     })
-
-    this.path = this.userService.path;
   }
 
   openSnackBar(message: string, action: string) {
@@ -38,10 +38,16 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.userService.rentCar(car._id, from, until, fromDate, untilDate).pipe(takeUntil(this.unsubscribe)).subscribe(
       res => console.log(res),
       err => console.log('Error: ', err),
-      () => this.openSnackBar(`You rented ` + car.brand + ' ' + car.model, "OK"));
+      () => {
+        this._snackBar.open(`You rented ` + car.brand + ' ' + car.model, "OK", {
+          duration: 3600,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+        });
+      });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.unsubscribe.unsubscribe();
   }
 }

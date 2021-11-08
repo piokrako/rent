@@ -1,4 +1,4 @@
-import { environment } from './../environments/environment.prod';
+import { environment } from './../../environments/environment.prod';
 import { ObjectId } from 'mongodb';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -22,6 +22,10 @@ export class AdminService {
       imgUrl: imgUrl
     }
     return this.http.post(API_URL + '/admin/create-car', carData);
+  }
+
+  uploadCarImage(formData: FormData) {
+    return this.http.post(API_URL + '/admin/save-image', formData);
   }
 
   getUsers() {
