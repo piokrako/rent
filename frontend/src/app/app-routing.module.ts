@@ -9,11 +9,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', component: MainPageComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   {
     path: 'main', component: MainPageComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'create-car', component: CreateCarComponent,
@@ -30,8 +31,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  // imports: [RouterModule.forChild(routes)],
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
+  // imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
