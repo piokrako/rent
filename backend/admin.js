@@ -12,6 +12,11 @@ const unlinkFile = util.promisify(fs.unlink);
 
 const upload = multer({ dest: "uploads/" });
 
+router.get('/',(req, res,next) => {
+  console.log('GET /admin/api from app.js');
+  res.send('This a response from app.js')
+});
+
 router.get("/uploads/:key", (req, res) => {
   const key = req.params.key;
   const readStream = getFileStream(key);

@@ -12,6 +12,9 @@ const app = require('./app');
 server.use('/api', app);
 server.use('/uploads', express.static(path.join(__dirname, '/backend/uploads')));
 
+
+
+
 if (process.env.NODE_ENV === "production") {
   console.log(
     "PROD -> server static content under: " +
