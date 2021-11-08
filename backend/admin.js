@@ -10,7 +10,7 @@ const fs = require("fs");
 const util = require("util");
 const unlinkFile = util.promisify(fs.unlink);
 
-const upload = multer({ dest: "backend/uploads/" });
+const upload = multer({ dest: "uploads/" });
 
 router.get("/uploads/:key", (req, res) => {
   const key = req.params.key;
