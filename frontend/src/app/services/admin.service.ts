@@ -24,6 +24,10 @@ export class AdminService {
     return this.http.post(API_URL + '/admin/create-car', carData);
   }
 
+  uploadCarImage(formData: FormData) {
+    return this.http.post(API_URL + '/admin/save-image', formData);
+  }
+
   getUsers() {
     return this.http.get(API_URL + '/admin/users');
   }

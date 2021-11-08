@@ -37,7 +37,7 @@ export class CreateCarComponent implements OnInit, OnDestroy {
       this.fileName = file.name;
       const formData = new FormData();
       formData.append("file", file);
-      this.http.post('http://localhost:3000/api/admin/save-image', formData).pipe(takeUntil(this.unsubscribe)).subscribe((res: any) => { this.fileKey = res.imageKey; console.log(res) });
+      this.adminService.uploadCarImage(formData).pipe(takeUntil(this.unsubscribe)).subscribe((res: any) => { this.fileKey = res.imageKey; console.log(res) });
     }
   }
 

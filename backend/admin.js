@@ -6,8 +6,8 @@ const User = require("./models/user");
 const Reservation = require("./models/reservation");
 const verifyToken = require("./verify-token");
 const { uploadFile, getFileStream } = require("./s3");
-const fs = require('fs');
-const util = require('util');
+const fs = require("fs");
+const util = require("util");
 const unlinkFile = util.promisify(fs.unlink);
 
 // const storage = multer.diskStorage({
@@ -49,11 +49,11 @@ router.post("/create-car", verifyToken, (req, res, next) => {
     seats: req.body.seats,
     imgUrl: req.body.imgUrl,
   });
-console.log(req);
+  console.log(req);
   car
     .save()
     .then((response) => {
-      res.status(201).json({ message: "Car created"});
+      res.status(201).json({ message: "Car created" });
     })
     .catch((error) => {
       console.log(error);
